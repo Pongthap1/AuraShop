@@ -7,12 +7,13 @@ import { useState } from 'react'
 import Button from '@/components/Button'
 import { router } from 'expo-router'
 import { supabase } from '@/utils/supabase'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default function login() {
 
   const [form, setForm] = useState({
-    email: "your@email.com",
-    password: "yourpassword",
+    email: "pongthap013@gmail.com",
+    password: "123456",
   })
 
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -36,6 +37,10 @@ export default function login() {
       Alert.alert("Login Failed", error.message)
     } else {
       console.log('Token:', data.session?.access_token) 
+      //Save Token 
+      await AsyncStorage.setItem("token", data.session?.access_token);
+      await AsyncStorage.setItem("isLoggedIn", 'true');
+      
       Alert.alert(
         'Login Successful',
         'You have successfully registered. Press OK to login.',
